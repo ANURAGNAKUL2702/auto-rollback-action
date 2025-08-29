@@ -1,7 +1,8 @@
 name: Rollback Demo
 
 on:
-  workflow_dispatch:   # allows manual trigger from GitHub UI
+  push:
+    branches: [ main ]
 
 jobs:
   demo:
