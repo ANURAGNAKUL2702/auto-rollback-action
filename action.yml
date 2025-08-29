@@ -1,35 +1,25 @@
-name: 'Auto Rollback Deploy'
-description: 'Automatically rollback failed deployments to last stable Docker image or Git commit.'
-author: 'Anurag Nakul'
-runs:
-  using: 'composite'
-  steps:
-    - name: Run rollback script
-      shell: bash
-      run: bash ${{ github.action_path }}/rollback.sh
-      env:
-        ROLLBACK_TYPE: ${{ inputs.rollback_type }}
-        REGISTRY: ${{ inputs.registry }}
-        LAST_SUCCESS_SHA: ${{ inputs.last_success_sha }}
-        ALERT_WEBHOOK: ${{ inputs.alert_webhook }}
+name: "Rollback Action"
+description: "Custom rollback script runner"
 
 inputs:
-  rollback_type:
-    description: 'Type of rollback: docker or git'
+  rollback_version:
+    description: "Version to rollback to"
     required: true
+  rollback_type:
+    description: "Type of rollback (auto/manual)"
+    required: false
   registry:
-    description: 'Docker registry for docker rollback'
+    description: "Registry to pull from"
     required: false
   last_success_sha:
-    description: 'Last successful Git commit SHA for git rollback'
+    description: "Last successful commit SHA"
     required: false
   alert_webhook:
-    description: 'Slack/Discord webhook URL for alerts'
+    description: "Slack/Discord alert webhook"
     required: false
 
-outputs:
-  rollback_status:
-    description: 'Status of rollback: success/failure'
-  rollback_version:
-    description: 'Restored commit SHA or Docker image tag'
-
+runs:
+  using: "composite"
+  steps:
+    - run: ./rollback.sh ${{ inputs.rollback_version }}
+      shell: bash
