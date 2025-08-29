@@ -1,7 +1,7 @@
 name: Rollback Demo
 
 on:
-  workflow_dispatch:   # allows manual trigger
+  workflow_dispatch:   # allows manual trigger from GitHub UI
 
 jobs:
   demo:
@@ -11,6 +11,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run my rollback action
-        uses: ./
+        uses: ./   # refers to action.yml in root
         with:
           rollback_version: "v1.0.0"
