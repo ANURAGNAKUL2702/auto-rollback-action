@@ -1,1 +1,16 @@
+name: Rollback Demo
 
+on:
+  workflow_dispatch:   # allows manual trigger
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run my rollback action
+        uses: ./
+        with:
+          rollback_version: "v1.0.0"
